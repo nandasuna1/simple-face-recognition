@@ -13,4 +13,10 @@ A2. Skin quantization
 B1. Hair detection
 B2. Hair quantization
 C. Get the Fusion of Features
+
 # simple-face-recognition
+
+# How to run the code
+
+You can follow this youtube video to run openCV in vs code
+https://www.youtube.com/watch?v=ZQcIFCBeSgM
