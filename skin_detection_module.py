@@ -4,8 +4,6 @@ import utils as u
 
 
 def skin_detection(input_image):
-    print('skin_detection')
-
     R, G, B = u.split_RGB(input_image=input_image)
 
     R = R.astype("float")
@@ -32,8 +30,40 @@ def skin_detection(input_image):
     # Converte a máscara de pele para uma máscara de bits.
     skin_mask = skin_mask.astype("uint8")
 
+    # Converte a imagem para escala de cinza
+    gray_image = cv.cvtColor(input_image, cv.COLOR_BGR2GRAY)
+
     # Aplica a máscara à imagem.
     masked_image = cv.bitwise_and(
-        input_image, input_image, mask=skin_mask)
+        gray_image, gray_image, mask=skin_mask)
 
     return masked_image
+
+
+def skin_quantization(skin_mask):
+    # Cria uma imagem preta do mesmo tamanho da máscara de pele
+    quantized_skin = np.zeros_like(skin_mask)
+
+    # Tamanho do quadrado 5x5
+    square_size = 5
+
+    # Limiar para contar pixels não da cor da pele
+    threshold = 12
+
+    # Loop pelos pixels da máscara
+    for y in range(0, skin_mask.shape[0], square_size):
+        for x in range(0, skin_mask.shape[1], square_size):
+            # Obtém o bloco 5x5 da máscara de pele
+            block = skin_mask[y:y+square_size, x:x+square_size]
+
+            # Conta o número de pixels não da cor da pele no bloco
+            non_skin_count = np.sum(block != 0)
+
+            # Define se o bloco é pele ou não pele com base no limiar
+            is_skin_block = non_skin_count <= threshold
+
+            # Preenche o bloco na imagem quantizada
+            quantized_skin[y:y+square_size, x:x +
+                           square_size] = is_skin_block.astype("uint8") * 255
+
+    return quantized_skin

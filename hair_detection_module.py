@@ -41,7 +41,7 @@ def hair_quantization(hair_mask, square_size=5, threshold=12):
             block = hair_mask[y:y+square_size, x:x+square_size]
 
             # Conta o número de pixels brancos (valor 1) no bloco
-            black_pixel_count = np.sum(block == 0)
+            black_pixel_count = np.sum(block != 0)
 
             # Verifica se é um bloco de cor de cabelo ou não
             is_hair_block = black_pixel_count > threshold

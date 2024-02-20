@@ -3,6 +3,7 @@ import skin_detection_module
 import cv2 as cv
 from matplotlib import pyplot as plt
 
+
 # Utilizando camerâ não inbutida no PC
 # Enumera todas as câmeras disponíveis
 # for i in range(0, 10):
